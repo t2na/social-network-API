@@ -56,6 +56,9 @@ The following animation shows the POST and DELETE routes for a user’s friend l
 
 In addition to this, your walkthrough video should show the POST and DELETE routes for reactions to thoughts being tested in Insomnia.
 
+## Questions
+Are we supposed to manually enter the usernames for the thoughts?
+
 ## Getting Started
 
 Be sure to have MongoDB installed on your machine. Follow the [MongoDB installation guide on The Full-Stack Blog](https://coding-boot-camp.github.io/full-stack/mongodb/how-to-install-mongodb) to install MongoDB locally.
@@ -161,7 +164,7 @@ This will not be a model, but rather will be used as the `reaction` field's subd
 
 * `DELETE` to remove user by its `_id`
 
-**BONUS**: Remove a user's associated thoughts when deleted.
+**BONUS**: Remove a user's associated thoughts when deleted. *******
 
 ---
 
