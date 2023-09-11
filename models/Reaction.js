@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 function formatDate(date) {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;

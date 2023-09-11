@@ -4,6 +4,9 @@ module.exports = {
     async getThoughts(req, res) {
         try {
             const thoughts = await Thought.find()
+                .select('-__v')
+                .populate('reactions');
+
             res.json(thoughts)
         } catch (err) {
             console.log(err);
@@ -14,7 +17,8 @@ module.exports = {
     async getSingleThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
-                .select('-__v');
+                .select('-__v')
+                .populate('reactions');
 
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' })
@@ -56,6 +60,9 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({ message: `No such thought exists, you're losing it...` });
             }
+
+            res.json({ message: 'Thought deleted!' })
+
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
@@ -64,11 +71,12 @@ module.exports = {
 
     async updateThought(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate(req.params.thoughtId)
+            const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $set: req.body })
 
             if (!thought) {
                 return res.status(404).json({ message: 'No thought with that ID' })
             }
+            res.json({ message: 'Thought updated!' })
         } catch (err) {
             res.status(500).json(err);
         }
@@ -100,11 +108,14 @@ module.exports = {
 
     async removeReaction(req, res) {
         try {
-            const reaction = await User.findOneAndUpdate(
-                { _id: req.params.useId },
+            const reaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
                 { $pull: { reactions: { reactionId: req.body.reactionId } } },
-                { runValidatos: true, new: true }
+                { runValidators: true, new: true }
             )
+
+            console.log(reaction);
+            console.log(req.params)
 
             if (!reaction) {
                 return res
@@ -112,7 +123,7 @@ module.exports = {
                     .json({ message: 'No reaction found with that ID :(' });
             }
 
-            res.json(friend)
+            res.json(reaction)
         } catch (err) {
             res.status(500).json(err)
         }
