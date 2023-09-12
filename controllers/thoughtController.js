@@ -14,6 +14,8 @@ module.exports = {
         }
     },
 
+    // need to loop through my reactions and get them individually, 
+
     async getSingleThought(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId })
